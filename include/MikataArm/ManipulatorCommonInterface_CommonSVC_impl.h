@@ -16,7 +16,8 @@
 
 #ifndef MANIPULATORCOMMONINTERFACE_COMMONSVC_IMPL_H
 #define MANIPULATORCOMMONINTERFACE_COMMONSVC_IMPL_H
- 
+
+class MikataArm; 
 /*!
  * @class ManipulatorCommonInterface_CommonSVC_impl
  * Example class implementing IDL interface JARA_ARM::ManipulatorCommonInterface_Common
@@ -29,8 +30,9 @@ class JARA_ARM_ManipulatorCommonInterface_CommonSVC_impl
    // Make sure all instances are built on the heap by making the
    // destructor non-public
    //virtual ~ManipulatorCommonInterface_CommonSVC_impl();
-
+  MikataArm* m_pRTC;
  public:
+  void setRTC(MikataArm* pRTC) {m_pRTC = pRTC;}
   /*!
    * @brief standard constructor
    */

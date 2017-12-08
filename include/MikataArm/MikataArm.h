@@ -40,6 +40,8 @@
 #include <rtm/DataInPort.h>
 #include <rtm/DataOutPort.h>
 
+#include "libmikataarm/include/mikata.h"
+
 using namespace RTC;
 
 /*!
@@ -301,6 +303,8 @@ class MikataArm
   
   // </rtc-template>
 
+public:
+  ssr::mikata::MikataArm *m_pArm;
 };
 
 

@@ -16,7 +16,8 @@
 
 #ifndef MANIPULATORCOMMONINTERFACE_MIDDLELEVELSVC_IMPL_H
 #define MANIPULATORCOMMONINTERFACE_MIDDLELEVELSVC_IMPL_H
- 
+
+class MikataArm; 
 /*!
  * @class ManipulatorCommonInterface_MiddleSVC_impl
  * Example class implementing IDL interface JARA_ARM::ManipulatorCommonInterface_Middle
@@ -30,7 +31,9 @@ class JARA_ARM_ManipulatorCommonInterface_MiddleSVC_impl
    // destructor non-public
    //virtual ~ManipulatorCommonInterface_MiddleSVC_impl();
 
+  MikataArm* m_pRTC;
  public:
+  void setRTC(MikataArm* pRTC) { m_pRTC = pRTC; }
   /*!
    * @brief standard constructor
    */

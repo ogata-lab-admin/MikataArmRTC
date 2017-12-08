@@ -33,6 +33,8 @@ else(STATIC_LIBS)
     set(LIB_TYPE SHARED)
 endif(STATIC_LIBS)
 
+add_subdirectory(libmikataarm)
+
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
    # Mac OS X specific code
    SET(CMAKE_CXX_COMPILER "g++")
@@ -86,6 +88,8 @@ add_subdirectory(src)
 #if(BUILD_TOOLS)
 #    add_subdirectory(tools)
 #endif(BUILD_TOOLS)
+
+
 
 if(BUILD_SOURCES)
     add_subdirectory(include)

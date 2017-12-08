@@ -92,7 +92,10 @@ RTC::ReturnCode_t MikataArm::onInitialize()
   bindParameter("port_name", m_port_name, "COM1");
   bindParameter("baudrate", m_baudrate, "1000000");
   // </rtc-template>
-  
+
+
+  m_manipMiddle.setRTC(this);
+  m_manipCommon.setRTC(this);
   return RTC::RTC_OK;
 }
 
@@ -120,12 +123,14 @@ RTC::ReturnCode_t MikataArm::onShutdown(RTC::UniqueId ec_id)
 
 RTC::ReturnCode_t MikataArm::onActivated(RTC::UniqueId ec_id)
 {
+  m_pArm = new ssr::mikata::MikataArm(m_port_name.c_str(), m_baudrate);
   return RTC::RTC_OK;
 }
 
 
 RTC::ReturnCode_t MikataArm::onDeactivated(RTC::UniqueId ec_id)
 {
+  delete m_pArm;
   return RTC::RTC_OK;
 }
 
