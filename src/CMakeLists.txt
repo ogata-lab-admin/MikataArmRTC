@@ -40,7 +40,7 @@ link_directories(${OPENRTM_LIBRARY_DIRS})
 link_directories(${OMNIORB_LIBRARY_DIRS})
 
 
-set(ADDITIONAL_LIBRARIES mikata)
+set(ADDITIONAL_LIBRARIES mikataStatic)
 
 add_library(${PROJECT_NAME} ${LIB_TYPE} ${comp_srcs}
   ${comp_headers} ${ALL_IDL_SRCS})
