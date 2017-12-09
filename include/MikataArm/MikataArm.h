@@ -304,7 +304,11 @@ class MikataArm
   // </rtc-template>
 
 public:
+  int m_timeout;
+  bool m_blocking;
   ssr::mikata::MikataArm *m_pArm;
+  bool is_blocking() { return m_blocking; }
+  int timeoutTime() { return m_timeout; }
 };
 
 

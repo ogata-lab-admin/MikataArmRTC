@@ -96,8 +96,24 @@ JARA_ARM::RETURN_ID* JARA_ARM_ManipulatorCommonInterface_CommonSVC_impl::getMani
 JARA_ARM::RETURN_ID* JARA_ARM_ManipulatorCommonInterface_CommonSVC_impl::getSoftLimitJoint(JARA_ARM::LimitSeq_out softLimit)
 {
   JARA_ARM::RETURN_ID_var result(new JARA_ARM::RETURN_ID());
-  result->id = JARA_ARM::NOT_IMPLEMENTED;
-  result->comment = CORBA::string_dup("NOT_IMPLEMENTED");
+  result->id = JARA_ARM::OK;
+  result->comment = CORBA::string_dup("OK");
+  try {
+    std::vector<ssr::mikata::LimitValue> lvs = m_pRTC->m_pArm->getJointLimits();
+    JARA_ARM::LimitSeq_var limitVar(new JARA_ARM::LimitSeq());
+    limitVar->length(6);
+    for(int i = 0;i < 6;i++) {
+      limitVar[i].upper = lvs[i].upper;
+      limitVar[i].lower = lvs[i].lower;
+    }
+    softLimit = limitVar.out();
+  } catch (const std::exception& ex) {
+    std::cerr << "JARA_ARM_ManipulatorCommonINterface_CommonSVC_impl::getManipInfo()" << std::endl;
+    std::cerr << ex.what() << std::endl;
+    result->id = JARA_ARM::NG;
+    result->comment = CORBA::string_dup(ex.what());
+  }
+
   return result._retn();
 }
 
@@ -125,6 +141,7 @@ JARA_ARM::RETURN_ID* JARA_ARM_ManipulatorCommonInterface_CommonSVC_impl::servoOF
     result->comment = CORBA::string_dup(ex.what());
   }
   return result._retn();
+
 }
 
 JARA_ARM::RETURN_ID* JARA_ARM_ManipulatorCommonInterface_CommonSVC_impl::servoON()
@@ -147,8 +164,31 @@ JARA_ARM::RETURN_ID* JARA_ARM_ManipulatorCommonInterface_CommonSVC_impl::servoON
 JARA_ARM::RETURN_ID* JARA_ARM_ManipulatorCommonInterface_CommonSVC_impl::setSoftLimitJoint(const JARA_ARM::LimitSeq& softLimit)
 {
   JARA_ARM::RETURN_ID_var result(new JARA_ARM::RETURN_ID());
-  result->id = JARA_ARM::NOT_IMPLEMENTED;
-  result->comment = CORBA::string_dup("NOT_IMPLEMENTED");
+  result->id = JARA_ARM::OK;
+  result->comment = CORBA::string_dup("OK");
+
+  if (softLimit.length() != ssr::mikata::numJoints) {
+    std::cerr << "JARA_ARM_ManipulatorCommonINterface_CommonSVC_impl::setSoftLimitJoint()" << std::endl;
+    std::cout << "Error: Passed argument has invalid number of datas(expect:6, actual:" << softLimit.length() << ")" << std::endl;
+    result->id = JARA_ARM::NG;
+    std::stringstream ss;
+    ss << "Invalid Argument. Invalid length of sequence. (expect:6, actual:" << softLimit.length() << ")";
+    result->comment = CORBA::string_dup(ss.str().c_str());
+    return result._retn();
+  } 
+  try {
+    std::vector<ssr::mikata::LimitValue> lvs;
+    for(int i = 0;i < 6;i++) {
+      lvs.push_back(ssr::mikata::LimitValue(softLimit[i].upper, softLimit[i].lower));
+    }
+    m_pRTC->m_pArm->setJointLimits(lvs);
+  } catch (const std::exception& ex) {
+    std::cerr << "JARA_ARM_ManipulatorCommonINterface_CommonSVC_impl::setSoftLimitJoint()" << std::endl;
+    std::cerr << ex.what() << std::endl;
+    result->id = JARA_ARM::NG;
+    result->comment = CORBA::string_dup(ex.what());
+  }
+
   return result._retn();
 }
 

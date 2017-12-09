@@ -29,16 +29,21 @@ static const char* mikataarm_spec[] =
     "language",          "C++",
     "lang_type",         "compile",
     // Configuration variables
-    "conf.default.port_name", "COM1",
+    //"conf.default.port_name", "COM1",
+    "conf.default.port_name", "/dev/cu.usbserial-FT1SF1ZV",
     "conf.default.baudrate", "1000000",
+    "conf.default.blocking", "true",
+    "conf.default.timeout", "10000",
 
     // Widget
     "conf.__widget__.port_name", "text",
     "conf.__widget__.baudrate", "text",
+    "conf.__widget__.blocking", "text",
     // Constraints
 
     "conf.__type__.port_name", "string",
     "conf.__type__.baudrate", "int",
+    "conf.__type__.blocking", "text",
 
     ""
   };
@@ -91,6 +96,8 @@ RTC::ReturnCode_t MikataArm::onInitialize()
   // Bind variables and configuration variable
   bindParameter("port_name", m_port_name, "COM1");
   bindParameter("baudrate", m_baudrate, "1000000");
+  bindParameter("blocking", m_blocking, "true");
+  bindParameter("timeout", m_timeout, "10000");
   // </rtc-template>
 
 
@@ -123,6 +130,7 @@ RTC::ReturnCode_t MikataArm::onShutdown(RTC::UniqueId ec_id)
 
 RTC::ReturnCode_t MikataArm::onActivated(RTC::UniqueId ec_id)
 {
+  std::cout << "Opening RTC(" << m_port_name << ", " << m_baudrate << ")" << std::endl;
   m_pArm = new ssr::mikata::MikataArm(m_port_name.c_str(), m_baudrate);
   return RTC::RTC_OK;
 }
