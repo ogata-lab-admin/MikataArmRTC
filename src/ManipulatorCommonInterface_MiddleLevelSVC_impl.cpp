@@ -42,9 +42,9 @@ JARA_ARM::RETURN_ID* JARA_ARM_ManipulatorCommonInterface_MiddleSVC_impl::closeGr
   try {
     m_pRTC->m_pArm->closeGripper();
 
-    if (m_pRTC->is_blocking()) {
-      m_pRTC->m_pArm->waitGripperAttained(m_pRTC->timeoutTime());
-    }
+    //if (m_pRTC->is_blocking()) {
+    //  m_pRTC->m_pArm->waitGripperAttained(m_pRTC->timeoutTime());
+    //}
   } catch (const ssr::mikata::TimeoutException& ex) { 
     std::cerr << "JARA_ARM_ManipulatorCommonINterface_MiddleSVC_impl::closeGripper()" << std::endl;
     std::cerr << ex.what() << std::endl;
@@ -124,9 +124,9 @@ JARA_ARM::RETURN_ID* JARA_ARM_ManipulatorCommonInterface_MiddleSVC_impl::moveGri
 
   try {
     m_pRTC->m_pArm->moveGripper(angleRatio / 100.0);
-    if (m_pRTC->is_blocking()) {
-      m_pRTC->m_pArm->waitGripperAttained(m_pRTC->timeoutTime());
-    }
+    //if (m_pRTC->is_blocking()) {
+    //  m_pRTC->m_pArm->waitGripperAttained(m_pRTC->timeoutTime());
+    //}
   } catch (const ssr::mikata::TimeoutException& ex) { 
     std::cerr << "JARA_ARM_ManipulatorCommonINterface_MiddleSVC_impl::moveGripper()" << std::endl;
     std::cerr << ex.what() << std::endl;
@@ -251,9 +251,9 @@ JARA_ARM::RETURN_ID* JARA_ARM_ManipulatorCommonInterface_MiddleSVC_impl::openGri
   try {
     m_pRTC->m_pArm->openGripper();
 
-     if (m_pRTC->is_blocking()) {
-       m_pRTC->m_pArm->waitGripperAttained(m_pRTC->timeoutTime());
-     }
+     //if (m_pRTC->is_blocking()) {
+     //  m_pRTC->m_pArm->waitGripperAttained(m_pRTC->timeoutTime());
+     //}
   } catch (const ssr::mikata::TimeoutException& ex) { 
     std::cerr << "JARA_ARM_ManipulatorCommonINterface_MiddleSVC_impl::openGripper()" << std::endl;
     std::cerr << ex.what() << std::endl;
@@ -381,6 +381,7 @@ JARA_ARM::RETURN_ID* JARA_ARM_ManipulatorCommonInterface_MiddleSVC_impl::setSpee
 
   try {
     m_pRTC->m_pArm->setVelocityRatio(spdRatio/100.0);
+	m_pRTC->m_pArm->setAccelerationRatio(spdRatio / 100.0);
 
   } catch (const ssr::mikata::TimeoutException& ex) { 
     std::cerr << "JARA_ARM_ManipulatorCommonINterface_MiddleSVC_impl::closeGripper()" << std::endl;

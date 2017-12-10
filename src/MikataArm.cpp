@@ -29,8 +29,11 @@ static const char* mikataarm_spec[] =
     "language",          "C++",
     "lang_type",         "compile",
     // Configuration variables
-    //"conf.default.port_name", "COM1",
-    "conf.default.port_name", "/dev/cu.usbserial-FT1SF1ZV",
+#ifdef WIN32
+    "conf.default.port_name", "COM3",
+#else
+	"conf.default.port_name", "/dev/cu.usbserial-FT1SF1ZV",
+#endif
     "conf.default.baudrate", "1000000",
     "conf.default.blocking", "true",
     "conf.default.timeout", "10000",
